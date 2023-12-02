@@ -1,12 +1,12 @@
 import os
 from moviepy.editor import VideoFileClip
+from schema import SOURCE_VIDEO_DIR
 
 # Set your source and destination folder paths
 source_folder = 'videos_from_the_sun_yt/'
-destination_folder = 'sun_videos_cut'
 
 # Ensure the destination folder exists
-os.makedirs(destination_folder, exist_ok=True)
+os.makedirs(SOURCE_VIDEO_DIR, exist_ok=True)
 counter = 0
 
 # Default frame rate (you can adjust this as needed)
@@ -28,7 +28,7 @@ for filename in os.listdir(source_folder):
         edited_video = video.subclip(10, 25)  # From 10th to 25th second
         
         # Construct the path for the edited video
-        destination_filepath = os.path.join(destination_folder, filename)
+        destination_filepath = os.path.join(SOURCE_VIDEO_DIR, filename)
 
         # Write the edited video to the destination folder without audio
         edited_video.write_videofile(destination_filepath, codec="libx264", fps=video_fps, audio=False)

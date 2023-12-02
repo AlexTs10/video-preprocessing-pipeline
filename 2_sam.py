@@ -3,19 +3,18 @@ import numpy as np
 import torch
 import cv2
 from utils import load_sam, sam_inference, dilate_mask
+from schema import SOURCE_VIDEO_DIR, OUTOUT_FOLDER
 
 device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
+sam_predictor = load_sam(device=device)
 
 ## PART 2
-source_video_dir = 'sun_videos_cut'
-output_folder = 'processed'
-    
-for video_name in os.listdir(source_video_dir):
+for video_name in os.listdir(SOURCE_VIDEO_DIR):
 
     # loop thhrough all videos in raw_data folder 
     video = video_name.replace('.mp4', '')
-    video_source = os.path.join(source_video_dir, video)
-    video_path = os.path.join(output_folder, video)    
+    video_source = os.path.join(SOURCE_VIDEO_DIR, video)
+    video_path = os.path.join(OUTOUT_FOLDER, video)    
     boxes_path = os.path.join(video_path, 'boxes')
     original_frames_path = os.path.join(video_path, 'original_frames')
     ocr_gdino_frames_path = os.path.join(video_path, 'ocr_gdino_frames')
@@ -24,9 +23,8 @@ for video_name in os.listdir(source_video_dir):
 
 
     box_dir = boxes_path
-    frame_dir = os.path.join(output_folder, video, ocr_gdino_frames_path)
+    frame_dir = os.path.join(OUTOUT_FOLDER, video, ocr_gdino_frames_path)
 
-    sam_predictor = load_sam(device=device)
     counter=0
     # Loop through all files in the directory
     length = len(os.listdir(frame_dir))

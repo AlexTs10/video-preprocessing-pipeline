@@ -1,6 +1,7 @@
 import os, sys
 
-sys.path.append(os.path.join(os.getcwd(), "GroundingDINO"))
+sys.path.append(os.path.join(os.getcwd(),
+                              "GroundingDINO"))
 
 import argparse
 import os
@@ -61,7 +62,7 @@ def grounding_dino(image_path, groundingdino_model, device):
         device=device
     )
 
-    print(boxes, logits, phrases )
+    #print(boxes, logits, phrases )
 
     return boxes, logits, phrases, image_source 
 

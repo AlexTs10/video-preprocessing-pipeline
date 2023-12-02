@@ -4,6 +4,7 @@ import torch
 import cv2
 
 from utils import load_model_hf, grounding_dino, ocr
+from schema import SOURCE_VIDEO_DIR, OUTOUT_FOLDER
 
 # Use this command for evaluate the Grounding DINO model
 # Or you can download the model by yourself
@@ -11,25 +12,23 @@ ckpt_repo_id = "ShilongLiu/GroundingDINO"
 ckpt_filenmae = "groundingdino_swinb_cogcoor.pth"
 ckpt_config_filename = "GroundingDINO_SwinB.cfg.py"
 
-groundingdino_model = load_model_hf(ckpt_repo_id, ckpt_filenmae, ckpt_config_filename)
+device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
+groundingdino_model = load_model_hf(ckpt_repo_id, ckpt_filenmae, ckpt_config_filename, device=device)
 
 ## PART 1
-device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 
-source_video_dir = 'sun_videos_cut'
-output_folder = 'processed'
-os.makedirs(output_folder, exist_ok=True)
+os.makedirs(OUTOUT_FOLDER, exist_ok=True)
 
 
-for video_name in os.listdir(source_video_dir):
+for video_name in os.listdir(SOURCE_VIDEO_DIR):
 
         
     # loop through all videos in raw_data folder 
     video = video_name.replace('.mp4', '')
 
-    video_source = os.path.join(source_video_dir, video)
+    video_source = os.path.join(SOURCE_VIDEO_DIR, video_name)
 
-    video_path = os.path.join(output_folder, video)
+    video_path = os.path.join(OUTOUT_FOLDER, video)
     os.makedirs(video_path, exist_ok=True)
 
     boxes_path = os.path.join(video_path, 'boxes')
