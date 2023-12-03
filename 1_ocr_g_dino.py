@@ -62,7 +62,7 @@ for video_name in os.listdir(SOURCE_VIDEO_DIR):
 
         # Break the loop if no frame is returned
         if not ret:
-            print(error)
+            #print(error)
             break
         cv2.imwrite(os.path.join(original_frames_path, f'{counter}_.png'), frame)
 
